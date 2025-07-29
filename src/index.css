@@ -2,56 +2,95 @@
 @tailwind components;
 @tailwind utilities;
 
-/* Definition of the design system. All colors, gradients, fonts, etc should be defined here. 
+/* Definition of the design system. All colors, gradients, fonts, etc should be defined here.
 All colors MUST be HSL.
 */
 
 @layer base {
   :root {
-    --background: 0 0% 100%;
-    --foreground: 222.2 84% 4.9%;
+    /* Network Rocket Brand Colors */
+    --primary: 344 59% 35%; /* #a42138 - Network Rocket Red */
+    --primary-foreground: 45 100% 98%; /* Cream white */
 
-    --card: 0 0% 100%;
-    --card-foreground: 222.2 84% 4.9%;
+    /* Pastel Color Palette */
+    --background: 45 100% 98%; /* #FFFEF7 - Cream white */
+    --foreground: 344 59% 20%; /* Darker red for text */
+
+    --card: 0 0% 100%; /* Pure white for cards */
+    --card-foreground: 344 59% 20%;
 
     --popover: 0 0% 100%;
-    --popover-foreground: 222.2 84% 4.9%;
+    --popover-foreground: 344 59% 20%;
 
-    --primary: 222.2 47.4% 11.2%;
-    --primary-foreground: 210 40% 98%;
+    --secondary: 220 14% 96%; /* #F8F9FA - Light gray */
+    --secondary-foreground: 344 59% 20%;
 
-    --secondary: 210 40% 96.1%;
-    --secondary-foreground: 222.2 47.4% 11.2%;
+    --muted: 220 14% 96%;
+    --muted-foreground: 215 16% 47%;
 
-    --muted: 210 40% 96.1%;
-    --muted-foreground: 215.4 16.3% 46.9%;
+    --accent: 344 59% 35%;
+    --accent-foreground: 45 100% 98%;
 
-    --accent: 210 40% 96.1%;
-    --accent-foreground: 222.2 47.4% 11.2%;
+    /* Pastel Role Colors */
+    --participant: 180 100% 94%; /* #E6FFFA - Mint green */
+    --participant-foreground: 180 84% 17%;
 
-    --destructive: 0 84.2% 60.2%;
-    --destructive-foreground: 210 40% 98%;
+    --team-leader: 200 100% 94%; /* #E8F4FD - Pale blue */
+    --team-leader-foreground: 200 84% 17%;
 
-    --border: 214.3 31.8% 91.4%;
-    --input: 214.3 31.8% 91.4%;
-    --ring: 222.2 84% 4.9%;
+    --admin: 270 100% 94%; /* #F3E8FF - Pastel purple */
+    --admin-foreground: 270 84% 17%;
 
-    --radius: 0.5rem;
+    --observer: 45 100% 88%; /* #FEF3C7 - Pastel yellow */
+    --observer-foreground: 45 84% 17%;
+
+    /* Status Colors */
+    --success: 160 84% 85%; /* Soft green */
+    --success-foreground: 160 84% 17%;
+
+    --warning: 25 95% 85%; /* Soft orange */
+    --warning-foreground: 25 95% 17%;
+
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    --border: 220 13% 91%;
+    --input: 220 13% 91%;
+    --ring: 344 59% 35%;
+
+    --radius: 0.75rem;
+
+  /* Gradients */
+  --gradient-primary: linear-gradient(135deg, hsl(344 59% 35%), hsl(344 59% 45%));
+  --gradient-pastel: linear-gradient(135deg, hsl(45 100% 98%), hsl(220 14% 96%));
+  --gradient-card: linear-gradient(135deg, hsl(0 0% 100%), hsl(220 14% 98%));
+  --gradient-banner: linear-gradient(135deg, hsl(344 59% 35%), hsl(270 60% 45%), hsl(220 60% 50%));
+  --gradient-network: radial-gradient(circle at 20% 80%, hsla(344, 59%, 35%, 0.3) 0%, transparent 50%),
+                      radial-gradient(circle at 80% 20%, hsla(270, 60%, 45%, 0.3) 0%, transparent 50%),
+                      radial-gradient(circle at 40% 40%, hsla(220, 60%, 50%, 0.2) 0%, transparent 50%);
+
+  /* Glassmorphism */
+  --glass-bg: rgba(255, 255, 255, 0.25);
+  --glass-border: rgba(255, 255, 255, 0.18);
+  --glass-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.37);
+
+  /* Shadows */
+  --shadow-card: 0 4px 12px -2px hsl(344 59% 35% / 0.08);
+  --shadow-glow: 0 0 24px hsl(344 59% 35% / 0.15);
+  --shadow-float: 0 8px 24px -4px hsl(344 59% 35% / 0.12);
+  --shadow-glassmorphism: 0 8px 32px 0 rgba(164, 33, 56, 0.1);
+
+    /* Animations */
+    --transition-smooth: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    --transition-bounce: all 0.5s cubic-bezier(0.68, -0.55, 0.265, 1.55);
 
     --sidebar-background: 0 0% 98%;
-
     --sidebar-foreground: 240 5.3% 26.1%;
-
     --sidebar-primary: 240 5.9% 10%;
-
     --sidebar-primary-foreground: 0 0% 98%;
-
     --sidebar-accent: 240 4.8% 95.9%;
-
     --sidebar-accent-foreground: 240 5.9% 10%;
-
     --sidebar-border: 220 13% 91%;
-
     --sidebar-ring: 217.2 91.2% 59.8%;
   }
 
@@ -100,6 +139,259 @@ All colors MUST be HSL.
   }
 
   body {
-    @apply bg-background text-foreground;
+    @apply bg-background text-foreground antialiased;
+    background: var(--gradient-pastel);
+  }
+}
+
+@layer components {
+  /* Glassmorphism Styles */
+  .glass-card {
+    background: var(--glass-bg);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    border: 1px solid var(--glass-border);
+    box-shadow: var(--shadow-glassmorphism);
+    @apply rounded-2xl;
+  }
+
+  .glass-input {
+    background: rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    @apply rounded-lg px-4 py-3 text-foreground placeholder:text-muted-foreground focus:border-primary focus:outline-none focus:ring-2 focus:ring-primary/20 transition-all duration-300;
+  }
+
+  .glass-input:focus {
+    background: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(164, 33, 56, 0.15);
+  }
+
+  .glass-input.error {
+    @apply border-destructive animate-pulse;
+    animation: shake 0.5s ease-in-out;
+  }
+
+  .glass-button {
+    background: var(--gradient-primary);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    @apply rounded-lg px-6 py-3 text-primary-foreground font-medium transition-all duration-300 hover:scale-105 hover:shadow-lg active:scale-95;
+  }
+
+  .glass-button:hover {
+    box-shadow: 0 8px 25px rgba(164, 33, 56, 0.3);
+    transform: translateY(-2px) scale(1.02);
+  }
+
+  .social-button {
+    @apply glass-card p-3 hover:scale-105 transition-all duration-300 cursor-pointer;
+  }
+
+  .floating-circles {
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  .floating-circle {
+    position: absolute;
+    border-radius: 50%;
+    background: linear-gradient(45deg, rgba(164, 33, 56, 0.1), rgba(164, 33, 56, 0.05));
+    animation: float 6s ease-in-out infinite;
+  }
+
+  .floating-circle:nth-child(1) {
+    width: 80px;
+    height: 80px;
+    top: 10%;
+    left: 10%;
+    animation-delay: 0s;
+  }
+
+  .floating-circle:nth-child(2) {
+    width: 120px;
+    height: 120px;
+    top: 20%;
+    right: 10%;
+    animation-delay: 2s;
+  }
+
+  .floating-circle:nth-child(3) {
+    width: 60px;
+    height: 60px;
+    bottom: 20%;
+    left: 15%;
+    animation-delay: 4s;
+  }
+
+  .floating-circle:nth-child(4) {
+    width: 100px;
+    height: 100px;
+    bottom: 30%;
+    right: 20%;
+    animation-delay: 1s;
+  }
+
+  @keyframes float {
+    0%, 100% { transform: translateY(0px) rotate(0deg); }
+    50% { transform: translateY(-20px) rotate(180deg); }
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-5px); }
+    75% { transform: translateX(5px); }
+  }
+
+  /* Role Button Variants */
+  .role-button {
+    @apply inline-flex items-center gap-2 px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 cursor-pointer;
+  }
+
+  .role-participant {
+    background: hsl(var(--participant));
+    color: hsl(var(--participant-foreground));
+    @apply hover:shadow-md hover:scale-105;
+  }
+
+  .role-team-leader {
+    background: hsl(var(--team-leader));
+    color: hsl(var(--team-leader-foreground));
+    @apply hover:shadow-md hover:scale-105;
+  }
+
+  .role-admin {
+    background: hsl(var(--admin));
+    color: hsl(var(--admin-foreground));
+    @apply hover:shadow-md hover:scale-105;
+  }
+
+  .role-observer {
+    background: hsl(var(--observer));
+    color: hsl(var(--observer-foreground));
+    @apply hover:shadow-md hover:scale-105;
+  }
+
+  /* Card Styles */
+  .challenge-card {
+    background: var(--gradient-card);
+    box-shadow: var(--shadow-card);
+    @apply rounded-xl border border-border/50 p-4 transition-all duration-300 hover:shadow-lg;
+  }
+
+  .rocket-card {
+    background: var(--gradient-card);
+    box-shadow: var(--shadow-float);
+    @apply rounded-2xl border border-border/30 overflow-hidden;
+  }
+
+  /* Progress Bar Animation */
+  .progress-fill {
+    transition: width 1s cubic-bezier(0.4, 0, 0.2, 1);
+    background: var(--gradient-primary);
+  }
+
+  /* Sparkle Animation */
+  .sparkle {
+    @apply animate-pulse;
+    filter: drop-shadow(0 0 8px hsl(var(--primary) / 0.5));
+  }
+
+  /* Floating Button */
+  .floating-rocket {
+    box-shadow: var(--shadow-float);
+    background: var(--gradient-primary);
+    @apply fixed bottom-6 right-6 p-3 rounded-full text-primary-foreground hover:scale-110 transition-transform duration-300 z-50;
+  }
+
+  /* Scroll Snap */
+  .scroll-snap-x {
+    scroll-snap-type: x mandatory;
+    @apply overflow-x-auto pb-2;
+  }
+
+  .scroll-snap-x > * {
+    scroll-snap-align: start;
+    flex-shrink: 0;
+  }
+
+  /* Top Bar */
+  .top-bar {
+    background: hsl(var(--primary));
+    @apply px-4 py-2 flex items-center justify-between text-primary-foreground text-sm;
+  }
+
+  /* Banner Slide */
+  .banner-slide {
+    @apply relative rounded-xl overflow-hidden h-48 w-full;
+  }
+
+  .banner-overlay {
+    background: linear-gradient(45deg, hsl(var(--primary) / 0.8), hsl(var(--primary) / 0.6));
+    @apply absolute inset-0 flex items-center justify-center text-primary-foreground;
+  }
+
+  /* Gradient Banner */
+  .gradient-banner {
+    background: var(--gradient-banner);
+    position: relative;
+    @apply rounded-xl overflow-hidden h-48 w-full;
+  }
+
+  .gradient-banner::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: var(--gradient-network);
+    opacity: 0.6;
+  }
+
+  /* Network Pattern */
+  .network-pattern {
+    position: absolute;
+    inset: 0;
+    background-image:
+      radial-gradient(circle at 20% 20%, white 1px, transparent 1px),
+      radial-gradient(circle at 80% 20%, white 1px, transparent 1px),
+      radial-gradient(circle at 40% 60%, white 1px, transparent 1px),
+      radial-gradient(circle at 70% 80%, white 1px, transparent 1px);
+    background-size: 50px 50px, 60px 60px, 80px 80px, 70px 70px;
+    opacity: 0.3;
+  }
+
+  .network-pattern::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(45deg, transparent 30%, white 30.5%, white 31%, transparent 31.5%),
+                linear-gradient(-45deg, transparent 30%, white 30.5%, white 31%, transparent 31.5%);
+    background-size: 100px 100px;
+    opacity: 0.1;
+  }
+}
+
+@layer utilities {
+  .text-gradient {
+    background: var(--gradient-primary);
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+  }
+
+  .shadow-glow {
+    box-shadow: var(--shadow-glow);
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
   }
 }
