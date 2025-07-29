@@ -141,6 +141,23 @@ All colors MUST be HSL.
   body {
     @apply bg-background text-foreground antialiased;
     background: var(--gradient-pastel);
+    /* Mobile-first viewport */
+    width: 100vw;
+    max-width: 428px;
+    margin: 0 auto;
+    overflow-x: hidden;
+  }
+
+  html {
+    overflow-x: hidden;
+  }
+
+  #root {
+    width: 100%;
+    max-width: 428px;
+    margin: 0 auto;
+    min-height: 100vh;
+    position: relative;
   }
 }
 
@@ -393,5 +410,15 @@ All colors MUST be HSL.
 
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
+  }
+  }
+
+  /* Mobile-first responsive design */
+  .mobile-container {
+    width: 100%;
+    max-width: 428px; /* iPhone 14 Pro Max width */
+    margin: 0 auto;
+    min-height: 100vh;
+    position: relative;
   }
 }

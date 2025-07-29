@@ -95,7 +95,7 @@ const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
 
       {/* Overlay Sidebar */}
       <div className={`
-        fixed top-0 left-0 h-full w-[50vw] max-sm:w-[85vw] 
+        fixed top-0 left-0 h-full w-[80vw] 
         bg-background border-r shadow-2xl z-50 
         transition-transform duration-400 ease-[cubic-bezier(0.4,0,0.2,1)]
         ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
