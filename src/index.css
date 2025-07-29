@@ -411,7 +411,6 @@ All colors MUST be HSL.
   .scrollbar-hide::-webkit-scrollbar {
     display: none;
   }
-  }
 
   /* Mobile-first responsive design */
   .mobile-container {
