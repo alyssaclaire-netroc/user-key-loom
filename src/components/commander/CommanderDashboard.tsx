@@ -80,8 +80,7 @@ const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
   };
 
   const handleAddChallenge = () => {
-    console.log("Opening add challenge page");
-    // Here you would navigate to add challenge page or open modal
+    window.location.href = '/create-challenge';
   };
 
   return (
