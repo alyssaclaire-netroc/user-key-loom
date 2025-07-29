@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { ChevronLeft, ChevronRight, Upload, Plus, Minus, Check } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Upload, Plus, Minus, Check, ArrowLeft, LogOut } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -589,12 +589,42 @@ const ChallengeCreator = () => {
     </div>
   );
 
+  const goBack = () => {
+    window.history.back();
+  };
+
+  const handleLogout = () => {
+    // Add logout logic here
+    console.log("Logging out...");
+    // You can add actual logout functionality here
+  };
+
   return (
-    <div className="min-h-screen bg-gradient-to-br from-background via-background to-background/95 p-4">
-      <div className="max-w-4xl mx-auto">
-        <div className="glass border-glass-border rounded-3xl p-8 shadow-glass">
-          <div className="text-center mb-8">
-            <h1 className="text-4xl font-bold gradient-text mb-2">Create Challenge</h1>
+    <div className="min-h-screen bg-gradient-to-br from-background via-background to-background/95">
+      {/* Header with back and logout buttons */}
+      <div className="flex items-center justify-between p-4 bg-white/80 backdrop-blur-sm border-b border-border/20">
+        <button
+          onClick={goBack}
+          className="flex items-center gap-2 text-foreground hover:text-primary transition-colors"
+        >
+          <ArrowLeft className="w-5 h-5" />
+          <span className="font-medium">Back</span>
+        </button>
+        
+        <h1 className="text-lg font-semibold text-foreground">Create Challenge</h1>
+        
+        <button
+          onClick={handleLogout}
+          className="flex items-center gap-2 text-foreground hover:text-destructive transition-colors"
+        >
+          <LogOut className="w-5 h-5" />
+        </button>
+      </div>
+
+      <div className="p-4">
+        <div className="glass border-glass-border rounded-3xl p-6 shadow-glass">
+          <div className="text-center mb-6">
+            <h2 className="text-3xl font-bold gradient-text mb-2">Create Challenge</h2>
             <p className="text-muted-foreground">Design an engaging challenge for your community</p>
           </div>
 
@@ -606,7 +636,7 @@ const ChallengeCreator = () => {
           {currentStep === 4 && renderStep4()}
 
           {currentStep < 4 && (
-            <div className="flex justify-between items-center mt-8 pt-6 border-t border-glass-border">
+            <div className="flex justify-between items-center mt-6 pt-4 border-t border-glass-border">
               <Button
                 onClick={prevStep}
                 variant="outline"
