@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Rocket, MapPin, Phone, Globe, ArrowUp, Users, Calendar, Award, Menu, LogOut, Trophy, Gamepad2, Gift, Star, TrendingUp } from 'lucide-react';
+import { Rocket, MapPin, Phone, Globe, Plus, Users, Calendar, Award, Menu, LogOut, Trophy, Gamepad2, Gift, Star, TrendingUp } from 'lucide-react';
 import { BannerCarousel } from '@/components/BannerCarousel';
 import { ChallengeCard } from '@/components/ChallengeCard';
 import { RewardCard } from '@/components/RewardCard';
@@ -79,8 +79,9 @@ const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
     console.log("Opening invite modal");
   };
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, behavior: 'smooth' });
+  const handleAddChallenge = () => {
+    console.log("Opening add challenge page");
+    // Here you would navigate to add challenge page or open modal
   };
 
   return (
@@ -353,9 +354,13 @@ const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
         </div>
       </div>
 
-      {/* Floating Back to Top Button */}
-      <button onClick={scrollToTop} className="floating-rocket" aria-label="Back to top">
-        <ArrowUp className="w-5 h-5" />
+      {/* Floating Add Challenge Button */}
+      <button 
+        onClick={handleAddChallenge} 
+        className="floating-rocket" 
+        aria-label="Add new challenge"
+      >
+        <Plus className="w-5 h-5" />
       </button>
     </div>
   );
