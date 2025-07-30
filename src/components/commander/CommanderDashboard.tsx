@@ -60,259 +60,280 @@ const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="w-full min-h-screen">
-        <div className="max-w-md mx-auto">
-          {/* Top Bar */}
-          <div className="top-bar">
-            <button 
-              onClick={() => setPanelCollapsed(!panelCollapsed)} 
-              className="hover:bg-white/10 p-1 rounded transition-colors"
-              aria-label="Toggle navigation panel"
+      <div className="w-full min-h-screen flex">
+        {/* Sidebar within main layout */}
+        <div className={`transition-all duration-300 ease-out bg-background/95 backdrop-blur-sm border-r border-border/20 ${
+          panelCollapsed ? 'w-16' : 'w-80'
+        } flex flex-col`}>
+          {/* Sidebar Header */}
+          <div className="p-4 border-b border-border/20">
+            <button
+              onClick={() => setPanelCollapsed(!panelCollapsed)}
+              className="w-full flex items-center gap-3 hover:bg-muted/20 p-2 rounded-lg transition-colors"
             >
-              <Menu className="w-5 h-5" />
-            </button>
-            <h1 className="font-semibold">Challenge Commander</h1>
-            <button 
-              onClick={onLogout} 
-              className="hover:bg-white/10 p-1 rounded transition-colors flex items-center gap-1"
-              aria-label="Logout"
-            >
-              <LogOut className="w-4 h-4" />
-              <span className="text-xs">Logout</span>
+              <Menu className="w-5 h-5 text-primary flex-shrink-0" />
+              {!panelCollapsed && <h2 className="font-bold">Navigation Hub</h2>}
             </button>
           </div>
+          
+          {/* Sidebar Content */}
+          <div className="flex-1 overflow-y-auto">
+            {!panelCollapsed && (
+              <div className="p-4 space-y-4">
+                {/* Gamification Module */}
+                <div className="rocket-card p-4">
+                  <h3 className="text-md font-bold mb-3 flex items-center gap-2">
+                    <Gamepad2 className="w-5 h-5 text-primary" />
+                    Gamification
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer">
+                      <div className="flex items-center gap-3">
+                        <Trophy className="w-4 h-4 text-yellow-500" />
+                        <span className="text-sm font-medium">Leaderboard</span>
+                      </div>
+                      <span className="text-xs text-muted-foreground">#5</span>
+                    </div>
 
-          <div className="space-y-6 p-4">
-            {/* Header Section */}
-            <div className="relative gradient-banner">
-              <div className="network-pattern"></div>
-              <div className="relative z-10 p-6 text-center space-y-4">
-                <div className="w-16 h-16 mx-auto bg-white/20 rounded-full flex items-center justify-center mb-4">
-                  <Rocket className="w-8 h-8 text-white" />
-                </div>
-                <div>
-                  <h1 className="text-2xl font-bold text-white mb-2">Network Rocket</h1>
-                  <p className="text-sm text-white/90 leading-relaxed">
-                    Accelerating business connections through innovative networking solutions and gamified challenges
-                  </p>
-                </div>
-                <div className="space-y-2 text-xs">
-                  <div className="flex items-center justify-center gap-2 text-white">
-                    <Globe className="w-3 h-3" />
-                    <span>www.networkrocket.com</span>
+                    <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer">
+                      <div className="flex items-center gap-3">
+                        <Star className="w-4 h-4 text-blue-500" />
+                        <span className="text-sm font-medium">Achievements</span>
+                      </div>
+                      <span className="text-xs text-muted-foreground">12/20</span>
+                    </div>
+
+                    <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer">
+                      <div className="flex items-center gap-3">
+                        <TrendingUp className="w-4 h-4 text-green-500" />
+                        <span className="text-sm font-medium">Progress</span>
+                      </div>
+                      <span className="text-xs text-muted-foreground">85%</span>
+                    </div>
                   </div>
-                  <div className="flex items-center justify-center gap-2 text-white/80">
-                    <MapPin className="w-3 h-3" />
-                    <span>456 Business Hub Avenue, Singapore</span>
-                  </div>
-                  <div className="flex items-center justify-center gap-2 text-white/80">
-                    <Phone className="w-3 h-3" />
-                    <span>+65 (555) 987-6543</span>
+                </div>
+
+                {/* Rewards Module */}
+                <div className="rocket-card p-4">
+                  <h3 className="text-md font-bold mb-3 flex items-center gap-2">
+                    <Gift className="w-5 h-5 text-primary" />
+                    Rewards
+                  </h3>
+                  <div className="space-y-3">
+                    <div className="p-3 bg-gradient-to-r from-purple-50 to-purple-100 rounded-lg">
+                      <div className="flex items-center gap-3 mb-2">
+                        <span className="text-lg">💎</span>
+                        <span className="text-sm font-medium">Premium Gems</span>
+                      </div>
+                      <p className="text-xs text-muted-foreground">You have 1,250 gems</p>
+                    </div>
+
+                    <div className="p-3 bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-lg">
+                      <div className="flex items-center gap-3 mb-2">
+                        <span className="text-lg">⭐</span>
+                        <span className="text-sm font-medium">Bonus Points</span>
+                      </div>
+                      <p className="text-xs text-muted-foreground">2,450 points available</p>
+                    </div>
+
+                    <div className="p-3 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
+                      <div className="flex items-center gap-3 mb-2">
+                        <span className="text-lg">🎟️</span>
+                        <span className="text-sm font-medium">Vouchers</span>
+                      </div>
+                      <p className="text-xs text-muted-foreground">3 vouchers ready to claim</p>
+                    </div>
                   </div>
                 </div>
               </div>
-            </div>
+            )}
+            
+            {panelCollapsed && (
+              <div className="p-2 space-y-2">
+                <div className="p-2 hover:bg-muted/20 rounded-lg cursor-pointer" title="Leaderboard">
+                  <Trophy className="w-5 h-5 text-yellow-500 mx-auto" />
+                </div>
+                <div className="p-2 hover:bg-muted/20 rounded-lg cursor-pointer" title="Achievements">
+                  <Star className="w-5 h-5 text-blue-500 mx-auto" />
+                </div>
+                <div className="p-2 hover:bg-muted/20 rounded-lg cursor-pointer" title="Progress">
+                  <TrendingUp className="w-5 h-5 text-green-500 mx-auto" />
+                </div>
+                <div className="p-2 hover:bg-muted/20 rounded-lg cursor-pointer" title="Rewards">
+                  <Gift className="w-5 h-5 text-primary mx-auto" />
+                </div>
+              </div>
+            )}
+          </div>
+        </div>
 
-            {/* Banner Carousel */}
-            <BannerCarousel />
-
-            {/* Inline Navigation Panel */}
-            <div className={`glass border-glass-border rounded-2xl overflow-hidden transition-all duration-300 ease-out ${
-              panelCollapsed ? 'h-16' : 'h-auto'
-            }`}>
-              <button
-                onClick={() => setPanelCollapsed(!panelCollapsed)}
-                className="w-full p-4 flex items-center justify-between hover:bg-muted/20 transition-colors"
+        {/* Main Content Area */}
+        <div className="flex-1 min-h-screen">
+          <div className="max-w-md mx-auto">
+            {/* Top Bar */}
+            <div className="top-bar">
+              <button 
+                onClick={() => setPanelCollapsed(!panelCollapsed)} 
+                className="hover:bg-white/10 p-1 rounded transition-colors"
+                aria-label="Toggle navigation panel"
               >
-                <div className="flex items-center gap-3">
-                  <Menu className="w-5 h-5 text-primary" />
-                  <h2 className="font-bold">Navigation Hub</h2>
-                </div>
-                <span className={`transition-transform duration-200 ${panelCollapsed ? "rotate-0" : "rotate-180"}`}>
-                  ▼
-                </span>
+                <Menu className="w-5 h-5" />
               </button>
-              
-              {!panelCollapsed && (
-                <div className="p-4 pt-0 space-y-4 animate-fade-in">
-                  {/* Gamification Module */}
-                  <div className="rocket-card p-4">
-                    <h3 className="text-md font-bold mb-3 flex items-center gap-2">
-                      <Gamepad2 className="w-5 h-5 text-primary" />
-                      Gamification
-                    </h3>
-                    <div className="space-y-3">
-                      <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer">
-                        <div className="flex items-center gap-3">
-                          <Trophy className="w-4 h-4 text-yellow-500" />
-                          <span className="text-sm font-medium">Leaderboard</span>
-                        </div>
-                        <span className="text-xs text-muted-foreground">#5</span>
-                      </div>
-
-                      <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer">
-                        <div className="flex items-center gap-3">
-                          <Star className="w-4 h-4 text-blue-500" />
-                          <span className="text-sm font-medium">Achievements</span>
-                        </div>
-                        <span className="text-xs text-muted-foreground">12/20</span>
-                      </div>
-
-                      <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer">
-                        <div className="flex items-center gap-3">
-                          <TrendingUp className="w-4 h-4 text-green-500" />
-                          <span className="text-sm font-medium">Progress</span>
-                        </div>
-                        <span className="text-xs text-muted-foreground">85%</span>
-                      </div>
-                    </div>
-                  </div>
-
-                  {/* Rewards Module */}
-                  <div className="rocket-card p-4">
-                    <h3 className="text-md font-bold mb-3 flex items-center gap-2">
-                      <Gift className="w-5 h-5 text-primary" />
-                      Rewards
-                    </h3>
-                    <div className="space-y-3">
-                      <div className="p-3 bg-gradient-to-r from-purple-50 to-purple-100 rounded-lg">
-                        <div className="flex items-center gap-3 mb-2">
-                          <span className="text-lg">💎</span>
-                          <span className="text-sm font-medium">Premium Gems</span>
-                        </div>
-                        <p className="text-xs text-muted-foreground">You have 1,250 gems</p>
-                      </div>
-
-                      <div className="p-3 bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-lg">
-                        <div className="flex items-center gap-3 mb-2">
-                          <span className="text-lg">⭐</span>
-                          <span className="text-sm font-medium">Bonus Points</span>
-                        </div>
-                        <p className="text-xs text-muted-foreground">2,450 points available</p>
-                      </div>
-
-                      <div className="p-3 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
-                        <div className="flex items-center gap-3 mb-2">
-                          <span className="text-lg">🎟️</span>
-                          <span className="text-sm font-medium">Vouchers</span>
-                        </div>
-                        <p className="text-xs text-muted-foreground">3 vouchers ready to claim</p>
-                      </div>
-                    </div>
-                  </div>
-                </div>
-              )}
+              <h1 className="font-semibold">Challenge Commander</h1>
+              <button 
+                onClick={onLogout} 
+                className="hover:bg-white/10 p-1 rounded transition-colors flex items-center gap-1"
+                aria-label="Logout"
+              >
+                <LogOut className="w-4 h-4" />
+                <span className="text-xs">Logout</span>
+              </button>
             </div>
 
-            {/* Friends Section */}
-            <div className="space-y-4">
-              <div className="flex items-center justify-between">
-                <div className="text-left">
-                  <h2 className="text-lg font-bold flex items-center gap-2">
-                    <span>👨‍🚀</span>
-                    My Fellow Astronauts
-                  </h2>
-                  <p className="text-sm text-muted-foreground">Friends who joined Network Rocket's challenges</p>
-                </div>
-                <button
-                  onClick={() => console.log("View all friends")}
-                  className="text-sm text-primary hover:text-primary/80 font-medium"
-                >
-                  View All Friends
-                </button>
-              </div>
-              <ScrollableContainer>
-                {friends.map((friend, index) => (
-                  <FriendCard key={index} {...friend} />
-                ))}
-                <div className="challenge-card min-w-[140px] text-center space-y-3 border-dashed border-2 border-muted">
-                  <div className="w-12 h-12 mx-auto rounded-full bg-muted flex items-center justify-center text-lg">
-                    ➕
+            <div className="space-y-6 p-4">
+              {/* Header Section */}
+              <div className="relative gradient-banner">
+                <div className="network-pattern"></div>
+                <div className="relative z-10 p-6 text-center space-y-4">
+                  <div className="w-16 h-16 mx-auto bg-white/20 rounded-full flex items-center justify-center mb-4">
+                    <Rocket className="w-8 h-8 text-white" />
                   </div>
                   <div>
-                    <h4 className="font-semibold text-sm">Invite Friends</h4>
-                    <p className="text-xs text-muted-foreground">Expand your network</p>
+                    <h1 className="text-2xl font-bold text-white mb-2">Network Rocket</h1>
+                    <p className="text-sm text-white/90 leading-relaxed">
+                      Accelerating business connections through innovative networking solutions and gamified challenges
+                    </p>
+                  </div>
+                  <div className="space-y-2 text-xs">
+                    <div className="flex items-center justify-center gap-2 text-white">
+                      <Globe className="w-3 h-3" />
+                      <span>www.networkrocket.com</span>
+                    </div>
+                    <div className="flex items-center justify-center gap-2 text-white/80">
+                      <MapPin className="w-3 h-3" />
+                      <span>456 Business Hub Avenue, Singapore</span>
+                    </div>
+                    <div className="flex items-center justify-center gap-2 text-white/80">
+                      <Phone className="w-3 h-3" />
+                      <span>+65 (555) 987-6543</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              {/* Banner Carousel */}
+              <BannerCarousel />
+
+              {/* Friends Section */}
+              <div className="space-y-4">
+                <div className="flex items-center justify-between">
+                  <div className="text-left">
+                    <h2 className="text-lg font-bold flex items-center gap-2">
+                      <span>👨‍🚀</span>
+                      My Fellow Astronauts
+                    </h2>
+                    <p className="text-sm text-muted-foreground">Friends who joined Network Rocket's challenges</p>
                   </div>
                   <button
-                    onClick={handleInvite}
-                    className="w-full bg-primary text-primary-foreground text-xs py-2 px-3 rounded-lg hover:bg-primary/90 transition-colors duration-200"
+                    onClick={() => console.log("View all friends")}
+                    className="text-sm text-primary hover:text-primary/80 font-medium"
                   >
-                    Invite Now
+                    View All Friends
                   </button>
                 </div>
-              </ScrollableContainer>
-            </div>
-
-            {/* Special Rewards */}
-            <div className="space-y-4">
-              <div className="text-left">
-                <h2 className="text-lg font-bold flex items-center gap-2">
-                  <span>✨</span>
-                  Special Rewards
-                </h2>
-                <p className="text-sm text-muted-foreground">Win these amazing prizes in current challenges</p>
-              </div>
-              <div className="grid grid-cols-3 gap-3">
-                <RewardCard
-                  icon="💎"
-                  title="500 Premium Gems"
-                  subtitle="Available in: Morning Energy Boost"
-                  background="bg-gradient-to-br from-purple-50 to-purple-100"
-                />
-                <RewardCard
-                  icon="⭐"
-                  title="1000 Bonus Points"
-                  subtitle="Available in: Green Office Challenge"
-                  background="bg-gradient-to-br from-yellow-50 to-yellow-100"
-                />
-                <RewardCard
-                  icon="🎟️"
-                  title="$50 Shopping Voucher"
-                  subtitle="Available in: Healthy Lunch Week"
-                  background="bg-gradient-to-br from-green-50 to-green-100"
-                />
-              </div>
-            </div>
-
-            {/* Current Challenges */}
-            <div className="space-y-4">
-              <div className="text-left">
-                <h2 className="text-lg font-bold flex items-center gap-2">
-                  <span>🎯</span>
-                  Current Challenges
-                </h2>
-                <p className="text-sm text-muted-foreground">Join the adventure today!</p>
-              </div>
-
-              {/* Challenge Categories */}
-              {Object.entries(challenges).map(([key, challengeList]) => (
-                <div key={key} className="rocket-card">
-                  <button
-                    onClick={() => setExpandedCategory(expandedCategory === key ? null : key)}
-                    className="w-full p-4 flex items-center justify-between"
-                  >
-                    <div className="flex items-center gap-3">
-                      <span className="text-xl">{key === 'active' ? '💪' : key === 'culinary' ? '🍳' : '🌱'}</span>
-                      <span className="font-semibold">{key.toUpperCase()}</span>
+                <ScrollableContainer>
+                  {friends.map((friend, index) => (
+                    <FriendCard key={index} {...friend} />
+                  ))}
+                  <div className="challenge-card min-w-[140px] text-center space-y-3 border-dashed border-2 border-muted">
+                    <div className="w-12 h-12 mx-auto rounded-full bg-muted flex items-center justify-center text-lg">
+                      ➕
                     </div>
-                    <span className={`transition-transform duration-200 ${expandedCategory === key ? "rotate-180" : ""}`}>▼</span>
-                  </button>
-                  {expandedCategory === key && (
-                    <div className="px-4 pb-4">
-                      <ScrollableContainer>
-                        {challengeList.map((challenge) => (
-                          <ChallengeCard
-                            key={challenge.id}
-                            {...challenge}
-                            onRoleClick={() => handleRoleClick(challenge.id, challenge.role)}
-                            onInvite={challenge.role === "participant" ? handleInvite : undefined}
-                          />
-                        ))}
-                      </ScrollableContainer>
+                    <div>
+                      <h4 className="font-semibold text-sm">Invite Friends</h4>
+                      <p className="text-xs text-muted-foreground">Expand your network</p>
                     </div>
-                  )}
+                    <button
+                      onClick={handleInvite}
+                      className="w-full bg-primary text-primary-foreground text-xs py-2 px-3 rounded-lg hover:bg-primary/90 transition-colors duration-200"
+                    >
+                      Invite Now
+                    </button>
+                  </div>
+                </ScrollableContainer>
+              </div>
+
+              {/* Special Rewards */}
+              <div className="space-y-4">
+                <div className="text-left">
+                  <h2 className="text-lg font-bold flex items-center gap-2">
+                    <span>✨</span>
+                    Special Rewards
+                  </h2>
+                  <p className="text-sm text-muted-foreground">Win these amazing prizes in current challenges</p>
                 </div>
-              ))}
+                <div className="grid grid-cols-3 gap-3">
+                  <RewardCard
+                    icon="💎"
+                    title="500 Premium Gems"
+                    subtitle="Available in: Morning Energy Boost"
+                    background="bg-gradient-to-br from-purple-50 to-purple-100"
+                  />
+                  <RewardCard
+                    icon="⭐"
+                    title="1000 Bonus Points"
+                    subtitle="Available in: Green Office Challenge"
+                    background="bg-gradient-to-br from-yellow-50 to-yellow-100"
+                  />
+                  <RewardCard
+                    icon="🎟️"
+                    title="$50 Shopping Voucher"
+                    subtitle="Available in: Healthy Lunch Week"
+                    background="bg-gradient-to-br from-green-50 to-green-100"
+                  />
+                </div>
+              </div>
+
+              {/* Current Challenges */}
+              <div className="space-y-4">
+                <div className="text-left">
+                  <h2 className="text-lg font-bold flex items-center gap-2">
+                    <span>🎯</span>
+                    Current Challenges
+                  </h2>
+                  <p className="text-sm text-muted-foreground">Join the adventure today!</p>
+                </div>
+
+                {/* Challenge Categories */}
+                {Object.entries(challenges).map(([key, challengeList]) => (
+                  <div key={key} className="rocket-card">
+                    <button
+                      onClick={() => setExpandedCategory(expandedCategory === key ? null : key)}
+                      className="w-full p-4 flex items-center justify-between"
+                    >
+                      <div className="flex items-center gap-3">
+                        <span className="text-xl">{key === 'active' ? '💪' : key === 'culinary' ? '🍳' : '🌱'}</span>
+                        <span className="font-semibold">{key.toUpperCase()}</span>
+                      </div>
+                      <span className={`transition-transform duration-200 ${expandedCategory === key ? "rotate-180" : ""}`}>▼</span>
+                    </button>
+                    {expandedCategory === key && (
+                      <div className="px-4 pb-4">
+                        <ScrollableContainer>
+                          {challengeList.map((challenge) => (
+                            <ChallengeCard
+                              key={challenge.id}
+                              {...challenge}
+                              onRoleClick={() => handleRoleClick(challenge.id, challenge.role)}
+                              onInvite={challenge.role === "participant" ? handleInvite : undefined}
+                            />
+                          ))}
+                        </ScrollableContainer>
+                      </div>
+                    )}
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
         </div>
