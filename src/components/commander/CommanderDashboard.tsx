@@ -156,7 +156,7 @@ const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
 
         {/* Main Content Area */}
         <div className="flex-1 min-h-screen">
-          <div className="max-w-md mx-auto">
+          <div className="max-w-6xl mx-auto px-4 lg:px-8">
             {/* Top Bar */}
             <div className="top-bar">
               <button 
@@ -177,7 +177,7 @@ const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
               </button>
             </div>
 
-            <div className="space-y-6 p-4">
+            <div className="space-y-8 py-6">
               {/* Header Section */}
               <div className="relative gradient-banner">
                 <div className="network-pattern"></div>
@@ -259,7 +259,7 @@ const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
                   </h2>
                   <p className="text-sm text-muted-foreground">Win these amazing prizes in current challenges</p>
                 </div>
-                <div className="grid grid-cols-3 gap-3">
+                <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
                   <RewardCard
                     icon="💎"
                     title="500 Gems"
@@ -301,34 +301,36 @@ const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
                 </div>
 
                 {/* Challenge Categories */}
-                {Object.entries(challenges).map(([key, challengeList]) => (
-                  <div key={key} className="rocket-card">
-                    <button
-                      onClick={() => setExpandedCategory(expandedCategory === key ? null : key)}
-                      className="w-full p-4 flex items-center justify-between"
-                    >
-                      <div className="flex items-center gap-3">
-                        <span className="text-xl">{key === 'active' ? '💪' : key === 'culinary' ? '🍳' : '🌱'}</span>
-                        <span className="font-semibold">{key.toUpperCase()}</span>
-                      </div>
-                      <span className={`transition-transform duration-200 ${expandedCategory === key ? "rotate-180" : ""}`}>▼</span>
-                    </button>
-                    {expandedCategory === key && (
-                      <div className="px-4 pb-4">
-                        <ScrollableContainer>
-                          {challengeList.map((challenge) => (
-                            <ChallengeCard
-                              key={challenge.id}
-                              {...challenge}
-                              onRoleClick={() => handleRoleClick(challenge.id, challenge.role)}
-                              onInvite={challenge.role === "participant" ? handleInvite : undefined}
-                            />
-                          ))}
-                        </ScrollableContainer>
-                      </div>
-                    )}
-                  </div>
-                ))}
+                <div className="grid gap-6 lg:grid-cols-2 xl:grid-cols-3">
+                  {Object.entries(challenges).map(([key, challengeList]) => (
+                    <div key={key} className="rocket-card">
+                      <button
+                        onClick={() => setExpandedCategory(expandedCategory === key ? null : key)}
+                        className="w-full p-4 flex items-center justify-between"
+                      >
+                        <div className="flex items-center gap-3">
+                          <span className="text-xl">{key === 'active' ? '💪' : key === 'culinary' ? '🍳' : '🌱'}</span>
+                          <span className="font-semibold">{key.toUpperCase()}</span>
+                        </div>
+                        <span className={`transition-transform duration-200 ${expandedCategory === key ? "rotate-180" : ""}`}>▼</span>
+                      </button>
+                      {expandedCategory === key && (
+                        <div className="px-4 pb-4">
+                          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2">
+                            {challengeList.map((challenge) => (
+                              <ChallengeCard
+                                key={challenge.id}
+                                {...challenge}
+                                onRoleClick={() => handleRoleClick(challenge.id, challenge.role)}
+                                onInvite={challenge.role === "participant" ? handleInvite : undefined}
+                              />
+                            ))}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
               </div>
 
               {/* Past Challenges */}
@@ -353,29 +355,31 @@ const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
                   </button>
 
                   {showPastChallenges && (
-                    <div className="px-4 pb-4 space-y-3">
-                      {pastChallenges.map((challenge, index) => (
-                        <div key={index} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-muted/30 rounded-lg">
-                          <div className="flex-1 min-w-0">
-                            <h4 className="font-medium text-sm text-muted-foreground truncate">{challenge.title}</h4>
-                            <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs text-muted-foreground mt-1">
-                              <span className={`px-2 py-1 rounded-full whitespace-nowrap ${
-                                challenge.status === "Completed" ? "bg-success text-success-foreground" : "bg-warning text-warning-foreground"
-                              }`}>
-                                {challenge.status}
-                              </span>
-                              <div className="flex items-center gap-1 whitespace-nowrap">
-                                <Users className="w-3 h-3 flex-shrink-0" />
-                                <span>{challenge.participants}</span>
-                              </div>
-                              <div className="flex items-center gap-1 whitespace-nowrap">
-                                <Award className="w-3 h-3 flex-shrink-0" />
-                                <span>{challenge.avgPoints} pts</span>
+                    <div className="px-4 pb-4">
+                      <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+                        {pastChallenges.map((challenge, index) => (
+                          <div key={index} className="flex flex-col p-3 bg-muted/30 rounded-lg">
+                            <div className="flex-1 min-w-0">
+                              <h4 className="font-medium text-sm text-muted-foreground truncate mb-2">{challenge.title}</h4>
+                              <div className="flex flex-wrap items-center gap-2 text-xs text-muted-foreground">
+                                <span className={`px-2 py-1 rounded-full whitespace-nowrap ${
+                                  challenge.status === "Completed" ? "bg-success text-success-foreground" : "bg-warning text-warning-foreground"
+                                }`}>
+                                  {challenge.status}
+                                </span>
+                                <div className="flex items-center gap-1 whitespace-nowrap">
+                                  <Users className="w-3 h-3 flex-shrink-0" />
+                                  <span>{challenge.participants}</span>
+                                </div>
+                                <div className="flex items-center gap-1 whitespace-nowrap">
+                                  <Award className="w-3 h-3 flex-shrink-0" />
+                                  <span>{challenge.avgPoints} pts</span>
+                                </div>
                               </div>
                             </div>
                           </div>
-                        </div>
-                      ))}
+                        ))}
+                      </div>
                     </div>
                   )}
                 </div>
@@ -384,7 +388,6 @@ const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
           </div>
         </div>
       </div>
-
     </div>
   );
 };
