@@ -156,7 +156,7 @@ const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
 
         {/* Main Content Area */}
         <div className="flex-1 min-h-screen">
-          <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8">
+          <div className="max-w-md mx-auto px-6">
             {/* Top Bar */}
             <div className="top-bar">
               <button 
