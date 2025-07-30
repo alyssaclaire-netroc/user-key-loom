@@ -38,6 +38,15 @@ const friends = [
   { name: "Emily Davis", avatar: "👩‍🎨", challenges: 6 },
 ];
 
+const pastChallenges = [
+  { title: "Summer Fitness Journey", status: "Completed", participants: 500, avgPoints: 85 },
+  { title: "Healthy Habits Month", status: "Expired", participants: 320, avgPoints: 72 },
+  { title: "Green Week Initiative", status: "Completed", participants: 450, avgPoints: 90 },
+  { title: "Team Building Quest", status: "Completed", participants: 200, avgPoints: 95 },
+  { title: "Innovation Challenge", status: "Expired", participants: 150, avgPoints: 78 },
+  { title: "Wellness Wednesday", status: "Completed", participants: 380, avgPoints: 82 },
+];
+
 interface CommanderDashboardProps {
   onLogout: () => void;
 }
@@ -45,6 +54,7 @@ interface CommanderDashboardProps {
 const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
   const [expandedCategory, setExpandedCategory] = useState<string | null>("active");
   const [sidebarVisible, setSidebarVisible] = useState(false);
+  const [showPastChallenges, setShowPastChallenges] = useState(false);
 
   const handleRoleClick = (challengeId: number, role: string) => {
     console.log(`Opening ${role} panel for challenge ${challengeId}`);
@@ -319,6 +329,56 @@ const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
                     )}
                   </div>
                 ))}
+              </div>
+
+              {/* Past Challenges */}
+              <div className="space-y-4">
+                <div className="text-left">
+                  <h2 className="text-lg font-bold flex items-center gap-2">
+                    <span>📚</span>
+                    Past Challenges
+                  </h2>
+                  <p className="text-sm text-muted-foreground">Previously completed adventures</p>
+                </div>
+
+                <div className="rocket-card">
+                  <button
+                    onClick={() => setShowPastChallenges(!showPastChallenges)}
+                    className="w-full p-4 flex items-center justify-between"
+                  >
+                    <span className="font-semibold">View Past Challenges</span>
+                    <span className={`transition-transform duration-200 ${showPastChallenges ? "rotate-180" : ""}`}>
+                      ▼
+                    </span>
+                  </button>
+
+                  {showPastChallenges && (
+                    <div className="px-4 pb-4 space-y-3">
+                      {pastChallenges.map((challenge, index) => (
+                        <div key={index} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
+                          <div className="flex-1">
+                            <h4 className="font-medium text-sm text-muted-foreground">{challenge.title}</h4>
+                            <div className="flex items-center gap-4 text-xs text-muted-foreground">
+                              <span className={`px-2 py-1 rounded-full ${
+                                challenge.status === "Completed" ? "bg-success text-success-foreground" : "bg-warning text-warning-foreground"
+                              }`}>
+                                {challenge.status}
+                              </span>
+                              <div className="flex items-center gap-1">
+                                <Users className="w-3 h-3" />
+                                <span>{challenge.participants}</span>
+                              </div>
+                              <div className="flex items-center gap-1">
+                                <Award className="w-3 h-3" />
+                                <span>{challenge.avgPoints} pts avg</span>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      ))}
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           </div>
