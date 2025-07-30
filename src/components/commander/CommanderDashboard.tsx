@@ -44,7 +44,7 @@ interface CommanderDashboardProps {
 
 const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
   const [expandedCategory, setExpandedCategory] = useState<string | null>("active");
-  const [panelCollapsed, setPanelCollapsed] = useState(false);
+  const [sidebarVisible, setSidebarVisible] = useState(false);
 
   const handleRoleClick = (challengeId: number, role: string) => {
     console.log(`Opening ${role} panel for challenge ${challengeId}`);
@@ -60,25 +60,20 @@ const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
 
   return (
     <div className="min-h-screen bg-background">
-      <div className="w-full min-h-screen flex">
-        {/* Sidebar within main layout */}
-        <div className={`transition-all duration-300 ease-out bg-background/95 backdrop-blur-sm border-r border-border/20 ${
-          panelCollapsed ? 'w-16' : 'w-80'
-        } flex flex-col`}>
-          {/* Sidebar Header */}
-          <div className="p-4 border-b border-border/20">
-            <button
-              onClick={() => setPanelCollapsed(!panelCollapsed)}
-              className="w-full flex items-center gap-3 hover:bg-muted/20 p-2 rounded-lg transition-colors"
-            >
-              <Menu className="w-5 h-5 text-primary flex-shrink-0" />
-              {!panelCollapsed && <h2 className="font-bold">Navigation Hub</h2>}
-            </button>
-          </div>
-          
-          {/* Sidebar Content */}
-          <div className="flex-1 overflow-y-auto">
-            {!panelCollapsed && (
+      <div className="w-full min-h-screen flex relative">
+        {/* Sidebar - Hidden by default */}
+        {sidebarVisible && (
+          <div className="w-80 flex flex-col transition-all duration-300 ease-out bg-background/95 backdrop-blur-sm border-r border-border/20">
+            {/* Sidebar Header */}
+            <div className="p-4 border-b border-border/20">
+              <div className="flex items-center gap-3">
+                <Menu className="w-5 h-5 text-primary flex-shrink-0" />
+                <h2 className="font-bold">Navigation Hub</h2>
+              </div>
+            </div>
+            
+            {/* Sidebar Content */}
+            <div className="flex-1 overflow-y-auto">
               <div className="p-4 space-y-4">
                 {/* Gamification Module */}
                 <div className="rocket-card p-4">
@@ -146,26 +141,9 @@ const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
                   </div>
                 </div>
               </div>
-            )}
-            
-            {panelCollapsed && (
-              <div className="p-2 space-y-2">
-                <div className="p-2 hover:bg-muted/20 rounded-lg cursor-pointer" title="Leaderboard">
-                  <Trophy className="w-5 h-5 text-yellow-500 mx-auto" />
-                </div>
-                <div className="p-2 hover:bg-muted/20 rounded-lg cursor-pointer" title="Achievements">
-                  <Star className="w-5 h-5 text-blue-500 mx-auto" />
-                </div>
-                <div className="p-2 hover:bg-muted/20 rounded-lg cursor-pointer" title="Progress">
-                  <TrendingUp className="w-5 h-5 text-green-500 mx-auto" />
-                </div>
-                <div className="p-2 hover:bg-muted/20 rounded-lg cursor-pointer" title="Rewards">
-                  <Gift className="w-5 h-5 text-primary mx-auto" />
-                </div>
-              </div>
-            )}
+            </div>
           </div>
-        </div>
+        )}
 
         {/* Main Content Area */}
         <div className="flex-1 min-h-screen">
@@ -173,9 +151,9 @@ const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
             {/* Top Bar */}
             <div className="top-bar">
               <button 
-                onClick={() => setPanelCollapsed(!panelCollapsed)} 
+                onClick={() => setSidebarVisible(!sidebarVisible)} 
                 className="hover:bg-white/10 p-1 rounded transition-colors"
-                aria-label="Toggle navigation panel"
+                aria-label="Toggle sidebar"
               >
                 <Menu className="w-5 h-5" />
               </button>
