@@ -67,8 +67,7 @@ const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
             {/* Sidebar Header */}
             <div className="p-4 border-b border-border/20">
               <div className="flex items-center gap-3">
-                <Menu className="w-5 h-5 text-primary flex-shrink-0" />
-                <h2 className="font-bold">Navigation Hub</h2>
+                <h2 className="font-bold">Menu</h2>
               </div>
             </div>
             
