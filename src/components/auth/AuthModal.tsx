@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Card, CardContent } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { Checkbox } from "@/components/ui/checkbox";
 import { useToast } from "@/hooks/use-toast";
 
 interface AuthModalProps {
@@ -16,6 +17,7 @@ const AuthModal = ({ onAuthSuccess, onSignupSuccess }: AuthModalProps) => {
     email: "",
     password: "",
   });
+  const [acceptedTerms, setAcceptedTerms] = useState(false);
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [isLoading, setIsLoading] = useState(false);
   const { toast } = useToast();
@@ -42,6 +44,10 @@ const AuthModal = ({ onAuthSuccess, onSignupSuccess }: AuthModalProps) => {
 
     if (!isLogin && !formData.fullName.trim()) {
       newErrors.fullName = "Full name is required";
+    }
+
+    if (!isLogin && !acceptedTerms) {
+      newErrors.terms = "You must accept the terms and privacy policy to continue";
     }
 
     setErrors(newErrors);
@@ -124,16 +130,15 @@ const AuthModal = ({ onAuthSuccess, onSignupSuccess }: AuthModalProps) => {
   );
 
   return (
-    <div className="min-h-screen flex items-center justify-center p-4 relative">
-      {/* Floating Background Circles */}
-      <div className="floating-circles">
-        <div className="floating-circle"></div>
-        <div className="floating-circle"></div>
-        <div className="floating-circle"></div>
-        <div className="floating-circle"></div>
+    <div className="min-h-screen flex items-center justify-center p-6">
+      {/* Clean floating background circles */}
+      <div className="fixed inset-0 overflow-hidden pointer-events-none">
+        <div className="absolute top-1/4 left-1/4 w-32 h-32 bg-primary/5 rounded-full blur-3xl animate-pulse"></div>
+        <div className="absolute top-1/3 right-1/3 w-40 h-40 bg-purple-500/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '2s' }}></div>
+        <div className="absolute bottom-1/3 left-1/3 w-36 h-36 bg-blue-500/5 rounded-full blur-3xl animate-pulse" style={{ animationDelay: '4s' }}></div>
       </div>
 
-      <div className="w-full max-w-md">
+      <div className="w-full max-w-md z-10 relative">
         <Card className="glass-card p-6">
           <div className="text-center mb-8">
             <h1 className="text-2xl font-bold text-foreground mb-2">
@@ -227,6 +232,46 @@ const AuthModal = ({ onAuthSuccess, onSignupSuccess }: AuthModalProps) => {
                 <p className="text-destructive text-xs mt-1 animate-fade-in">{errors.password}</p>
               )}
             </div>
+
+            {/* Legal Policy Checkbox for Signup */}
+            {!isLogin && (
+              <div className="space-y-3">
+                <div className="flex items-start gap-3 p-3 glass-input">
+                  <Checkbox
+                    id="terms"
+                    checked={acceptedTerms}
+                    onCheckedChange={(checked) => {
+                      setAcceptedTerms(checked as boolean);
+                      if (errors.terms) {
+                        setErrors(prev => ({ ...prev, terms: "" }));
+                      }
+                    }}
+                    className="mt-0.5"
+                  />
+                  <label htmlFor="terms" className="text-xs text-muted-foreground leading-relaxed cursor-pointer">
+                    I agree to the{" "}
+                    <button
+                      type="button"
+                      className="text-primary underline hover:text-primary/80"
+                      onClick={() => window.open("#", "_blank")}
+                    >
+                      Terms of Service
+                    </button>{" "}
+                    and{" "}
+                    <button
+                      type="button"
+                      className="text-primary underline hover:text-primary/80"
+                      onClick={() => window.open("#", "_blank")}
+                    >
+                      Privacy Policy
+                    </button>
+                  </label>
+                </div>
+                {errors.terms && (
+                  <p className="text-destructive text-xs animate-fade-in">{errors.terms}</p>
+                )}
+              </div>
+            )}
 
             <Button
               type="submit"
