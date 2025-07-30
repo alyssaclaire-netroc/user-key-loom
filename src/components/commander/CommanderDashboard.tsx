@@ -273,12 +273,21 @@ const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
 
               {/* Current Challenges */}
               <div className="space-y-4">
-                <div className="text-left">
-                  <h2 className="text-lg font-bold flex items-center gap-2">
-                    <span>🎯</span>
-                    Current Challenges
-                  </h2>
-                  <p className="text-sm text-muted-foreground">Join the adventure today!</p>
+                <div className="flex items-start justify-between">
+                  <div className="text-left">
+                    <h2 className="text-lg font-bold flex items-center gap-2">
+                      <span>🎯</span>
+                      Current Challenges
+                    </h2>
+                    <p className="text-sm text-muted-foreground">Join the adventure today!</p>
+                  </div>
+                  <button 
+                    onClick={handleAddChallenge} 
+                    className="bg-primary text-primary-foreground rounded-full p-3 hover:bg-primary/90 transition-colors shadow-lg sticky top-4" 
+                    aria-label="Add new challenge"
+                  >
+                    <Plus className="w-5 h-5" />
+                  </button>
                 </div>
 
                 {/* Challenge Categories */}
@@ -316,14 +325,6 @@ const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
         </div>
       </div>
 
-      {/* Floating Add Challenge Button */}
-      <button 
-        onClick={handleAddChallenge} 
-        className="floating-rocket" 
-        aria-label="Add new challenge"
-      >
-        <Plus className="w-5 h-5" />
-      </button>
     </div>
   );
 };
