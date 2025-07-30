@@ -44,32 +44,7 @@ interface CommanderDashboardProps {
 
 const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
   const [expandedCategory, setExpandedCategory] = useState<string | null>("active");
-  const [sidebarOpen, setSidebarOpen] = useState(false);
-
-  // Keyboard and body scroll handling
-  useEffect(() => {
-    const handleEscKey = (event: KeyboardEvent) => {
-      if (event.key === 'Escape' && sidebarOpen) {
-        setSidebarOpen(false);
-      }
-    };
-
-    const handleBodyScroll = () => {
-      if (sidebarOpen) {
-        document.body.style.overflow = 'hidden';
-      } else {
-        document.body.style.overflow = 'unset';
-      }
-    };
-
-    document.addEventListener('keydown', handleEscKey);
-    handleBodyScroll();
-
-    return () => {
-      document.removeEventListener('keydown', handleEscKey);
-      document.body.style.overflow = 'unset';
-    };
-  }, [sidebarOpen]);
+  const [panelCollapsed, setPanelCollapsed] = useState(false);
 
   const handleRoleClick = (challengeId: number, role: string) => {
     console.log(`Opening ${role} panel for challenge ${challengeId}`);
@@ -85,112 +60,14 @@ const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
 
   return (
     <div className="min-h-screen bg-background">
-      {/* Backdrop */}
-      {sidebarOpen && (
-        <div 
-          className="fixed inset-0 bg-black/40 z-40 transition-opacity duration-400 ease-out"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
-
-      {/* Overlay Sidebar */}
-      <div className={`
-        fixed top-0 left-0 h-full w-[80vw] 
-        bg-background border-r shadow-2xl z-50 
-        transition-transform duration-400 ease-[cubic-bezier(0.4,0,0.2,1)]
-        ${sidebarOpen ? 'translate-x-0' : '-translate-x-full'}
-      `}>
-        <div className="p-4 border-b">
-          <div className="flex items-center justify-between">
-            <h2 className="text-lg font-bold">Menu</h2>
-            <button
-              onClick={() => setSidebarOpen(false)}
-              className="p-2 hover:bg-muted rounded-lg transition-colors"
-              aria-label="Close sidebar"
-            >
-              ✕
-            </button>
-          </div>
-        </div>
-
-        <div className="p-4 space-y-4 overflow-y-auto h-[calc(100vh-80px)]">
-          {/* Gamification Module */}
-          <div className="rocket-card p-4">
-            <h3 className="text-md font-bold mb-3 flex items-center gap-2">
-              <Gamepad2 className="w-5 h-5 text-primary" />
-              Gamification
-            </h3>
-            <div className="space-y-3">
-              <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer">
-                <div className="flex items-center gap-3">
-                  <Trophy className="w-4 h-4 text-yellow-500" />
-                  <span className="text-sm font-medium">Leaderboard</span>
-                </div>
-                <span className="text-xs text-muted-foreground">#5</span>
-              </div>
-
-              <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer">
-                <div className="flex items-center gap-3">
-                  <Star className="w-4 h-4 text-blue-500" />
-                  <span className="text-sm font-medium">Achievements</span>
-                </div>
-                <span className="text-xs text-muted-foreground">12/20</span>
-              </div>
-
-              <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer">
-                <div className="flex items-center gap-3">
-                  <TrendingUp className="w-4 h-4 text-green-500" />
-                  <span className="text-sm font-medium">Progress</span>
-                </div>
-                <span className="text-xs text-muted-foreground">85%</span>
-              </div>
-            </div>
-          </div>
-
-          {/* Rewards Module */}
-          <div className="rocket-card p-4">
-            <h3 className="text-md font-bold mb-3 flex items-center gap-2">
-              <Gift className="w-5 h-5 text-primary" />
-              Rewards
-            </h3>
-            <div className="space-y-3">
-              <div className="p-3 bg-gradient-to-r from-purple-50 to-purple-100 rounded-lg">
-                <div className="flex items-center gap-3 mb-2">
-                  <span className="text-lg">💎</span>
-                  <span className="text-sm font-medium">Premium Gems</span>
-                </div>
-                <p className="text-xs text-muted-foreground">You have 1,250 gems</p>
-              </div>
-
-              <div className="p-3 bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-lg">
-                <div className="flex items-center gap-3 mb-2">
-                  <span className="text-lg">⭐</span>
-                  <span className="text-sm font-medium">Bonus Points</span>
-                </div>
-                <p className="text-xs text-muted-foreground">2,450 points available</p>
-              </div>
-
-              <div className="p-3 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
-                <div className="flex items-center gap-3 mb-2">
-                  <span className="text-lg">🎟️</span>
-                  <span className="text-sm font-medium">Vouchers</span>
-                </div>
-                <p className="text-xs text-muted-foreground">3 vouchers ready to claim</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      {/* Main Content - Always Full Width, Never Shifts */}
-      <div className="w-full min-h-screen transition-none">
+      <div className="w-full min-h-screen">
         <div className="max-w-md mx-auto">
           {/* Top Bar */}
           <div className="top-bar">
             <button 
-              onClick={() => setSidebarOpen(true)} 
+              onClick={() => setPanelCollapsed(!panelCollapsed)} 
               className="hover:bg-white/10 p-1 rounded transition-colors"
-              aria-label="Open sidebar"
+              aria-label="Toggle navigation panel"
             >
               <Menu className="w-5 h-5" />
             </button>
@@ -238,6 +115,94 @@ const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
 
             {/* Banner Carousel */}
             <BannerCarousel />
+
+            {/* Inline Navigation Panel */}
+            <div className={`glass border-glass-border rounded-2xl overflow-hidden transition-all duration-300 ease-out ${
+              panelCollapsed ? 'h-16' : 'h-auto'
+            }`}>
+              <button
+                onClick={() => setPanelCollapsed(!panelCollapsed)}
+                className="w-full p-4 flex items-center justify-between hover:bg-muted/20 transition-colors"
+              >
+                <div className="flex items-center gap-3">
+                  <Menu className="w-5 h-5 text-primary" />
+                  <h2 className="font-bold">Navigation Hub</h2>
+                </div>
+                <span className={`transition-transform duration-200 ${panelCollapsed ? "rotate-0" : "rotate-180"}`}>
+                  ▼
+                </span>
+              </button>
+              
+              {!panelCollapsed && (
+                <div className="p-4 pt-0 space-y-4 animate-fade-in">
+                  {/* Gamification Module */}
+                  <div className="rocket-card p-4">
+                    <h3 className="text-md font-bold mb-3 flex items-center gap-2">
+                      <Gamepad2 className="w-5 h-5 text-primary" />
+                      Gamification
+                    </h3>
+                    <div className="space-y-3">
+                      <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer">
+                        <div className="flex items-center gap-3">
+                          <Trophy className="w-4 h-4 text-yellow-500" />
+                          <span className="text-sm font-medium">Leaderboard</span>
+                        </div>
+                        <span className="text-xs text-muted-foreground">#5</span>
+                      </div>
+
+                      <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer">
+                        <div className="flex items-center gap-3">
+                          <Star className="w-4 h-4 text-blue-500" />
+                          <span className="text-sm font-medium">Achievements</span>
+                        </div>
+                        <span className="text-xs text-muted-foreground">12/20</span>
+                      </div>
+
+                      <div className="flex items-center justify-between p-3 bg-muted/30 rounded-lg hover:bg-muted/50 transition-colors cursor-pointer">
+                        <div className="flex items-center gap-3">
+                          <TrendingUp className="w-4 h-4 text-green-500" />
+                          <span className="text-sm font-medium">Progress</span>
+                        </div>
+                        <span className="text-xs text-muted-foreground">85%</span>
+                      </div>
+                    </div>
+                  </div>
+
+                  {/* Rewards Module */}
+                  <div className="rocket-card p-4">
+                    <h3 className="text-md font-bold mb-3 flex items-center gap-2">
+                      <Gift className="w-5 h-5 text-primary" />
+                      Rewards
+                    </h3>
+                    <div className="space-y-3">
+                      <div className="p-3 bg-gradient-to-r from-purple-50 to-purple-100 rounded-lg">
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className="text-lg">💎</span>
+                          <span className="text-sm font-medium">Premium Gems</span>
+                        </div>
+                        <p className="text-xs text-muted-foreground">You have 1,250 gems</p>
+                      </div>
+
+                      <div className="p-3 bg-gradient-to-r from-yellow-50 to-yellow-100 rounded-lg">
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className="text-lg">⭐</span>
+                          <span className="text-sm font-medium">Bonus Points</span>
+                        </div>
+                        <p className="text-xs text-muted-foreground">2,450 points available</p>
+                      </div>
+
+                      <div className="p-3 bg-gradient-to-r from-green-50 to-green-100 rounded-lg">
+                        <div className="flex items-center gap-3 mb-2">
+                          <span className="text-lg">🎟️</span>
+                          <span className="text-sm font-medium">Vouchers</span>
+                        </div>
+                        <p className="text-xs text-muted-foreground">3 vouchers ready to claim</p>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
 
             {/* Friends Section */}
             <div className="space-y-4">
