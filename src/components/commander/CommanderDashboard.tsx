@@ -187,8 +187,8 @@ const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
                   </div>
                   <div>
                     <h1 className="text-2xl font-bold text-white mb-2">Network Rocket</h1>
-                    <p className="text-sm text-white/90 leading-relaxed">
-                      Accelerating business connections through innovative networking solutions and gamified challenges
+                    <p className="text-xs sm:text-sm text-white/90 leading-relaxed">
+                      Accelerating business connections through networking and challenges
                     </p>
                   </div>
                   <div className="space-y-2 text-xs">
@@ -197,8 +197,8 @@ const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
                       <span>www.networkrocket.com</span>
                     </div>
                     <div className="flex items-center justify-center gap-2 text-white/80">
-                      <MapPin className="w-3 h-3" />
-                      <span>456 Business Hub Avenue, Singapore</span>
+                      <MapPin className="w-3 h-3 flex-shrink-0" />
+                      <span className="truncate">456 Business Hub Ave, Singapore</span>
                     </div>
                     <div className="flex items-center justify-center gap-2 text-white/80">
                       <Phone className="w-3 h-3" />
@@ -223,9 +223,9 @@ const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
                   </div>
                   <button
                     onClick={() => console.log("View all friends")}
-                    className="text-sm text-primary hover:text-primary/80 font-medium"
+                    className="text-xs sm:text-sm text-primary hover:text-primary/80 font-medium whitespace-nowrap"
                   >
-                    View All Friends
+                    View All
                   </button>
                 </div>
                 <ScrollableContainer>
@@ -262,20 +262,20 @@ const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
                 <div className="grid grid-cols-3 gap-3">
                   <RewardCard
                     icon="💎"
-                    title="500 Premium Gems"
-                    subtitle="Available in: Morning Energy Boost"
+                    title="500 Gems"
+                    subtitle="Morning Energy"
                     background="bg-gradient-to-br from-purple-50 to-purple-100"
                   />
                   <RewardCard
                     icon="⭐"
-                    title="1000 Bonus Points"
-                    subtitle="Available in: Green Office Challenge"
+                    title="1000 Points"
+                    subtitle="Green Office"
                     background="bg-gradient-to-br from-yellow-50 to-yellow-100"
                   />
                   <RewardCard
                     icon="🎟️"
-                    title="$50 Shopping Voucher"
-                    subtitle="Available in: Healthy Lunch Week"
+                    title="$50 Voucher"
+                    subtitle="Healthy Lunch"
                     background="bg-gradient-to-br from-green-50 to-green-100"
                   />
                 </div>
@@ -355,22 +355,22 @@ const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
                   {showPastChallenges && (
                     <div className="px-4 pb-4 space-y-3">
                       {pastChallenges.map((challenge, index) => (
-                        <div key={index} className="flex items-center justify-between p-3 bg-muted/30 rounded-lg">
-                          <div className="flex-1">
-                            <h4 className="font-medium text-sm text-muted-foreground">{challenge.title}</h4>
-                            <div className="flex items-center gap-4 text-xs text-muted-foreground">
-                              <span className={`px-2 py-1 rounded-full ${
+                        <div key={index} className="flex flex-col sm:flex-row sm:items-center justify-between p-3 bg-muted/30 rounded-lg">
+                          <div className="flex-1 min-w-0">
+                            <h4 className="font-medium text-sm text-muted-foreground truncate">{challenge.title}</h4>
+                            <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-xs text-muted-foreground mt-1">
+                              <span className={`px-2 py-1 rounded-full whitespace-nowrap ${
                                 challenge.status === "Completed" ? "bg-success text-success-foreground" : "bg-warning text-warning-foreground"
                               }`}>
                                 {challenge.status}
                               </span>
-                              <div className="flex items-center gap-1">
-                                <Users className="w-3 h-3" />
+                              <div className="flex items-center gap-1 whitespace-nowrap">
+                                <Users className="w-3 h-3 flex-shrink-0" />
                                 <span>{challenge.participants}</span>
                               </div>
-                              <div className="flex items-center gap-1">
-                                <Award className="w-3 h-3" />
-                                <span>{challenge.avgPoints} pts avg</span>
+                              <div className="flex items-center gap-1 whitespace-nowrap">
+                                <Award className="w-3 h-3 flex-shrink-0" />
+                                <span>{challenge.avgPoints} pts</span>
                               </div>
                             </div>
                           </div>
