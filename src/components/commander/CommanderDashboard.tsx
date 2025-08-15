@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Rocket, MapPin, Phone, Globe, Plus, Users, Calendar, Award, Menu, LogOut, Trophy, Gamepad2, Gift, Star, TrendingUp } from 'lucide-react';
+import { Rocket, MapPin, Phone, Globe, Plus, Users, Calendar, Award, Menu, LogOut, Trophy, Gamepad2, Gift, Star, TrendingUp, Edit3 } from 'lucide-react';
 import { BannerCarousel } from '@/components/BannerCarousel';
 import { ChallengeCard } from '@/components/ChallengeCard';
 import { RewardCard } from '@/components/RewardCard';
@@ -49,12 +49,14 @@ const pastChallenges = [
 
 interface CommanderDashboardProps {
   onLogout: () => void;
+  onProfileEdit?: () => void;
 }
 
-const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
+const CommanderDashboard = ({ onLogout, onProfileEdit }: CommanderDashboardProps) => {
   const [expandedCategory, setExpandedCategory] = useState<string | null>("active");
   const [sidebarVisible, setSidebarVisible] = useState(false);
   const [showPastChallenges, setShowPastChallenges] = useState(false);
+  const [activeTab, setActiveTab] = useState("challenges");
 
   const handleRoleClick = (challengeId: number, role: string) => {
     console.log(`Opening ${role} panel for challenge ${challengeId}`);
@@ -74,10 +76,22 @@ const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
         {/* Sidebar - Hidden by default */}
         {sidebarVisible && (
           <div className="w-80 flex flex-col transition-all duration-300 ease-out bg-background/95 backdrop-blur-sm border-r border-border/20">
-            {/* Sidebar Header */}
+            {/* Sidebar Header with Profile */}
             <div className="p-4 border-b border-border/20">
-              <div className="flex items-center gap-3">
-                <h2 className="font-bold">Menu</h2>
+              <div className="flex items-center gap-3 mb-4">
+                <div className="w-12 h-12 bg-primary/10 rounded-full flex items-center justify-center text-2xl">
+                  👨‍💼
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-semibold text-sm">Alex Thompson</h3>
+                  <p className="text-xs text-muted-foreground">Commander</p>
+                </div>
+                <button
+                  onClick={onProfileEdit}
+                  className="text-primary hover:text-primary/80 p-1"
+                >
+                  <Edit3 className="w-4 h-4" />
+                </button>
               </div>
             </div>
             
@@ -211,44 +225,7 @@ const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
               {/* Banner Carousel */}
               <BannerCarousel />
 
-              {/* Friends Section */}
-              <div className="space-y-4">
-                <div className="flex items-center justify-between">
-                  <div className="text-left">
-                    <h2 className="text-lg font-bold flex items-center gap-2">
-                      <span>👨‍🚀</span>
-                      My Fellow Astronauts
-                    </h2>
-                    <p className="text-sm text-muted-foreground">Friends who joined Network Rocket's challenges</p>
-                  </div>
-                  <button
-                    onClick={() => console.log("View all friends")}
-                    className="text-xs sm:text-sm text-primary hover:text-primary/80 font-medium whitespace-nowrap"
-                  >
-                    View All
-                  </button>
-                </div>
-                <ScrollableContainer>
-                  {friends.map((friend, index) => (
-                    <FriendCard key={index} {...friend} />
-                  ))}
-                  <div className="challenge-card min-w-[140px] text-center space-y-3 border-dashed border-2 border-muted">
-                    <div className="w-12 h-12 mx-auto rounded-full bg-muted flex items-center justify-center text-lg">
-                      ➕
-                    </div>
-                    <div>
-                      <h4 className="font-semibold text-sm">Invite Friends</h4>
-                      <p className="text-xs text-muted-foreground">Expand your network</p>
-                    </div>
-                    <button
-                      onClick={handleInvite}
-                      className="w-full bg-primary text-primary-foreground text-xs py-2 px-3 rounded-lg hover:bg-primary/90 transition-colors duration-200"
-                    >
-                      Invite Now
-                    </button>
-                  </div>
-                </ScrollableContainer>
-              </div>
+              {/* Tab content will replace the friends section */}
 
               {/* Special Rewards */}
               <div className="space-y-4">
@@ -281,9 +258,43 @@ const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
                 </div>
               </div>
 
-              {/* Current Challenges */}
-              <div className="space-y-4">
-                <div className="flex items-start justify-between">
+              {/* Tab Navigation */}
+              <div className="flex bg-muted/30 rounded-lg p-1 mb-6">
+                <button
+                  onClick={() => setActiveTab("challenges")}
+                  className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+                    activeTab === "challenges" 
+                      ? "bg-primary text-primary-foreground" 
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  🎯 Current Challenges
+                </button>
+                <button
+                  onClick={() => setActiveTab("create")}
+                  className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+                    activeTab === "create" 
+                      ? "bg-primary text-primary-foreground" 
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  ➕ Create Challenge
+                </button>
+                <button
+                  onClick={() => setActiveTab("astronauts")}
+                  className={`flex-1 py-2 px-4 rounded-md text-sm font-medium transition-colors ${
+                    activeTab === "astronauts" 
+                      ? "bg-primary text-primary-foreground" 
+                      : "text-muted-foreground hover:text-foreground"
+                  }`}
+                >
+                  👨‍🚀 My Fellow Astronauts
+                </button>
+              </div>
+
+              {/* Tab Content */}
+              {activeTab === "challenges" && (
+                <div className="space-y-4">
                   <div className="text-left">
                     <h2 className="text-lg font-bold flex items-center gap-2">
                       <span>🎯</span>
@@ -291,45 +302,88 @@ const CommanderDashboard = ({ onLogout }: CommanderDashboardProps) => {
                     </h2>
                     <p className="text-sm text-muted-foreground">Join the adventure today!</p>
                   </div>
-                  <button 
-                    onClick={handleAddChallenge} 
-                    className="bg-primary text-primary-foreground rounded-full p-3 hover:bg-primary/90 transition-colors shadow-lg sticky top-4" 
-                    aria-label="Add new challenge"
-                  >
-                    <Plus className="w-5 h-5" />
-                  </button>
-                </div>
 
-                {/* Challenge Categories */}
-                {Object.entries(challenges).map(([key, challengeList]) => (
-                  <div key={key} className="rocket-card">
-                    <button
-                      onClick={() => setExpandedCategory(expandedCategory === key ? null : key)}
-                      className="w-full p-4 flex items-center justify-between"
+                  {/* Challenge Categories */}
+                  {Object.entries(challenges).map(([key, challengeList]) => (
+                    <div key={key} className="rocket-card">
+                      <button
+                        onClick={() => setExpandedCategory(expandedCategory === key ? null : key)}
+                        className="w-full p-4 flex items-center justify-between"
+                      >
+                        <div className="flex items-center gap-3">
+                          <span className="text-xl">{key === 'active' ? '💪' : key === 'culinary' ? '🍳' : '🌱'}</span>
+                          <span className="font-semibold">{key.toUpperCase()}</span>
+                        </div>
+                        <span className={`transition-transform duration-200 ${expandedCategory === key ? "rotate-180" : ""}`}>▼</span>
+                      </button>
+                      {expandedCategory === key && (
+                        <div className="px-4 pb-4">
+                          <ScrollableContainer>
+                            {challengeList.map((challenge) => (
+                              <ChallengeCard
+                                key={challenge.id}
+                                {...challenge}
+                                onRoleClick={() => handleRoleClick(challenge.id, challenge.role)}
+                                onInvite={challenge.role === "participant" ? handleInvite : undefined}
+                              />
+                            ))}
+                          </ScrollableContainer>
+                        </div>
+                      )}
+                    </div>
+                  ))}
+                </div>
+              )}
+
+              {activeTab === "create" && (
+                <div className="space-y-4">
+                  <div className="text-center py-8">
+                    <div className="w-16 h-16 mx-auto bg-primary/10 rounded-full flex items-center justify-center mb-4">
+                      <Plus className="w-8 h-8 text-primary" />
+                    </div>
+                    <h3 className="text-lg font-bold mb-2">Create New Challenge</h3>
+                    <p className="text-sm text-muted-foreground mb-6">Design an engaging challenge for your team</p>
+                    <button 
+                      onClick={handleAddChallenge}
+                      className="glass-button"
                     >
-                      <div className="flex items-center gap-3">
-                        <span className="text-xl">{key === 'active' ? '💪' : key === 'culinary' ? '🍳' : '🌱'}</span>
-                        <span className="font-semibold">{key.toUpperCase()}</span>
-                      </div>
-                      <span className={`transition-transform duration-200 ${expandedCategory === key ? "rotate-180" : ""}`}>▼</span>
+                      Start Creating
                     </button>
-                    {expandedCategory === key && (
-                      <div className="px-4 pb-4">
-                        <ScrollableContainer>
-                          {challengeList.map((challenge) => (
-                            <ChallengeCard
-                              key={challenge.id}
-                              {...challenge}
-                              onRoleClick={() => handleRoleClick(challenge.id, challenge.role)}
-                              onInvite={challenge.role === "participant" ? handleInvite : undefined}
-                            />
-                          ))}
-                        </ScrollableContainer>
-                      </div>
-                    )}
                   </div>
-                ))}
-              </div>
+                </div>
+              )}
+
+              {activeTab === "astronauts" && (
+                <div className="space-y-4">
+                  <div className="text-left">
+                    <h2 className="text-lg font-bold flex items-center gap-2">
+                      <span>👨‍🚀</span>
+                      My Fellow Astronauts
+                    </h2>
+                    <p className="text-sm text-muted-foreground">Friends who joined Network Rocket's challenges</p>
+                  </div>
+                  <ScrollableContainer>
+                    {friends.map((friend, index) => (
+                      <FriendCard key={index} {...friend} />
+                    ))}
+                    <div className="challenge-card min-w-[140px] text-center space-y-3 border-dashed border-2 border-muted">
+                      <div className="w-12 h-12 mx-auto rounded-full bg-muted flex items-center justify-center text-lg">
+                        ➕
+                      </div>
+                      <div>
+                        <h4 className="font-semibold text-sm">Invite Friends</h4>
+                        <p className="text-xs text-muted-foreground">Expand your network</p>
+                      </div>
+                      <button
+                        onClick={handleInvite}
+                        className="w-full bg-primary text-primary-foreground text-xs py-2 px-3 rounded-lg hover:bg-primary/90 transition-colors duration-200"
+                      >
+                        Invite Now
+                      </button>
+                    </div>
+                  </ScrollableContainer>
+                </div>
+              )}
 
               {/* Past Challenges */}
               <div className="space-y-4">
